@@ -1,8 +1,0 @@
-{
-    "/api" : {
-        "target" : "http://localhost:8079/CuiseSite/Cruiselet", 
-        "secure" : false,
-        "logLevel" : "debug", 
-        "changeOrigin": true
-    }
-}
