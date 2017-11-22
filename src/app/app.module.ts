@@ -1,29 +1,30 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
-import { routes } from './app.routes';
-import { LoginModule } from './login/login.module';
-import { SignupModule } from './signup/signup.module';
-import { DashboardModule } from './dashboard/dashboard.module';
+import { PluginsComponent } from './cruiseComponents/core/plugins/plugins.component';
+import { PluginsService } from './cruiseComponents/core/dataservices/plugins.service';
+import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
+import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
+
+
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PluginsComponent,
+    GlobalvariablesComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule,
-    RouterModule.forRoot(routes),
-    LoginModule,
-    SignupModule,
-    DashboardModule
+    HttpClientModule,
+    Ng4JsonEditorModule
   ],
-  providers: [],
+  providers: [PluginsService, HttpClientModule],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
