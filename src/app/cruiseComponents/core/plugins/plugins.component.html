@@ -1,4 +1,4 @@
-
+<!-- button class="btn btn-outline-secondary"  [ngbTooltip]="tipContent">Show</button -->
 	<div class="row">
 		<div class="col-xl-3 col-lg-6">
 			<div class="card card-primary card-inverse">
@@ -16,7 +16,7 @@
 				</div>
 				<div>
 					<select [(ngModel)]="selectedPlugin" (ngModelChange)="onPluginChange($event)">
-					  <option *ngFor="let sp of supportedPlugin" [ngValue]="sp">{{sp.name}}</option>
+					  <option *ngFor="let sp of supportedPlugin" title=" By:{{sp.vendor}} Version:{{sp.version}}" [ngValue]="sp">{{sp.name}} </option>
 
 					</select>
 				</div>
@@ -37,7 +37,7 @@
 				</div>
 				<div >
 					<select [(ngModel)]="selectedAction" (ngModelChange)="onActionChange($event)">
-					  <option *ngFor="let sa of supportedActions" [ngValue]="sa">{{sa.actionName}}</option>
+					  <option *ngFor="let sa of supportedActions" title="{{sa.actionDesc}}" [ngValue]="sa">{{sa.actionName}}</option>
 
 					</select>
 				</div>
@@ -58,7 +58,7 @@
 				</div>
 				<div >
 					<select [(ngModel)]="selectedActionParams" (ngModelChange)="onActionParamChange($event)">
-					  <option *ngFor="let sap of supportedActionParams" [ngValue]="sap">{{sap.paramName}}</option>
+					  <option *ngFor="let sap of supportedActionParams" title="{{sap.paramDesc}}" [ngValue]="sap">{{sap.paramName}}</option>
 
 					</select>
 				</div>
@@ -66,22 +66,22 @@
 		</div>
 
 	</div>
-
+	<div class="row">
+	    <input type="url" class="form-control" id="myURL" (blur)="doUpdateURL($event)" aria-describedby="urlHelp" placeholder="http://localhost:4200">
+	    <!-- button class="btn btn-primary btn-sm active"  (click)="doConnect()" title="Connect to Cruise Engine.">Clear</button -->
+	</div>
 	<div class="row">
 		<div class="col-lg-5">
 			<div class="card card-default">
 				<div class="card-header">
-					<i class="fa fa-clock-o fa-fw"></i> Send Request
+					<i class="fa fa-clock-o fa-fw"></i>Editor:
+					<button class="btn btn-primary btn-sm active"  (click)="doClear()" title="Clears the Editor Content">Clear</button>
+				    <button class="btn btn-primary btn-sm active" (click)="doStage()" title="Moves the selected Plugin and Action to the editor">Stage</button>
+				  	<button class="btn btn-primary btn-sm active" (click)="doPOST()" title="Sends the editor content to the Cruise Engine">Send</button>
+				  	<button class="btn btn-primary btn-sm active" (click)="doShow()" title="Shows the raw JSON from the editor in the Response area.">Show</button>
 				</div>
 					<div id="jsoneditor">
-					<json-editor [options]="editorOptions" [data]="Application"></json-editor>
-					 <div class="row">
-					  <div class="m-t-1">
-					    <button class="btn btn-primary" (click)="doStage()">Stage Request</button>
-					  	<button class="btn btn-primary" (click)="doPOST()">Send Request</button>
-					  	
-						</div>
-					</div>
+						<json-editor [options]="editorOptions" [data]="Application"></json-editor>
 					</div>
 			</div>
 		</div>
@@ -89,10 +89,18 @@
 			<div class="card card-default">
 				<div class="card-header">
 					<i class="fa fa-bell fa-fw"></i> Response
+					<button class="btn btn-primary btn-sm active" (click)="doClearOutput()">Clear</button>
+				    <button class="btn btn-primary btn-sm active" (click)="doConvert()">Edit</button>
+				</div>
+				<div class="m-t-1">
+
 				</div>
 				<!-- /.card-header -->
 				<div id="jsondisplay">
-				<pre>{{jsonData}}</pre>
+					  <div class="form-group">
+					    <textarea class="form-control" id="exampleTextarea" rows="25">{{jsonData}}</textarea>
+					  </div>
+
 				</div>
 				<!-- /.card-body -->
 			</div>

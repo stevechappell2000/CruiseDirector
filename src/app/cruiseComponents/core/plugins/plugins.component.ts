@@ -26,7 +26,8 @@ export class PluginsComponent implements OnInit {
   public selectedPlugin: pluginObject;
   public selectedAction: actions;
   public selectedActionParams: actionParams;
-  private postApp: application;
+  private postApp: application = null;
+  private activeURL: string = undefined;
   //@HostBinding('attr.id') id;
   @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
   
@@ -76,10 +77,8 @@ private customSend = {
       this.Application = this.initSend;
       this.editorOptions = new JsonEditorOptions()
       this.editorOptions.modes = ['code', 'form', 'text', 'tree', 'view']; // set all allowed modes
-      //this.options.mode = 'code'; //set only one mode
-        
       this.data = this.Application;
-      //this.jsonData = JSON.stringify(this.Application, null, 4);
+ 
     
   }
 
@@ -108,20 +107,36 @@ private customSend = {
     }
   private createApp(){
       //var app: application;
-      var app = new application("test","test");
-      app.addService(new services(this.selectedPlugin.name));
-      app.services[0].addParam("action", this.selectedAction.actionName);
-      //let cnt: int = this.selectedAction.actionParams.length;
+      if(null === this.postApp){
+          this.postApp = new application("test","test");
+      }
+      var ser = new services(this.selectedPlugin.name)//
+      ser.addParam("action", this.selectedAction.actionName);
       for(let i=0;i<this.selectedAction.actionParams.length;i++){
          if(this.selectedAction.actionParams[i].paramName !='ID'){
-             app.services[0].addParam(this.selectedAction.actionParams[i].paramName, this.selectedAction.actionParams[i].paramDefault);
+            ser.addParam(this.selectedAction.actionParams[i].paramName, this.selectedAction.actionParams[i].paramDefault);
          }
       }
-      let js = JSON.stringify(app, null, 4);
+      this.postApp.addService(ser);
+      let js = JSON.stringify(this.postApp, null, 4);
       this.editor.set(JSON.parse(js));
   }
   doStage(){
       this.createApp();
+  }
+  doClear(){
+      this.postApp = null;
+      this.editor.set(JSON.parse("{}"));
+  }
+  doClearOutput(){
+      this.jsonData  = "{}";
+  }
+  doConvert(){
+      this.editor.set(JSON.parse(this.jsonData));
+  }
+  doShow(){
+      this.postApp = null;
+      this.jsonData  = JSON.stringify(this.editor.get(),null,4);
   }
   onActionChange(action: actions){
       
@@ -136,5 +151,13 @@ private customSend = {
       this.selectedPlugin = plugin;
       this.jsonData = (JSON.stringify(this.selectedPlugin, null, 4));
       this.supportedActions = plugin.actions;
+  }
+  doUpdateURL(event: any) { // without type info
+      this.activeURL = event.target.value;
+  }
+  doConnect(){
+      if(undefined != this.activeURL){
+      this._httpPlugin.LastURL = this.activeURL;
+      }
   }
 }

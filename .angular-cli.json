@@ -33,6 +33,10 @@
       }
     }
   ],
+  "styles": [
+  "../node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "styles.css"
+],
   "addons": [],
   "packages": [],
   "e2e": {

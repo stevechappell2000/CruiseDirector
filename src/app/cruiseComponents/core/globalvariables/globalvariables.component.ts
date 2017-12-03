@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class GlobalvariablesComponent implements OnInit {
   private engineURL: string;
   constructor() { 
-      this.engineURL = 'http://localhost:8079/CuiseSite/Cruiselet';
+      this.engineURL = 'http://cruise-env.aferuuzpxv.us-west-2.elasticbeanstalk.com/Cruiselet';
+      //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
   }
   
   ngOnInit() {
-      this.engineURL = 'http://localhost:8079/CuiseSite/Cruiselet';
+      this.engineURL = 'http://cruise-env.aferuuzpxv.us-west-2.elasticbeanstalk.com/Cruiselet';
+      //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
   }
   GetEngineURL(){
       return this.engineURL;

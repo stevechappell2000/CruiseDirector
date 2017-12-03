@@ -8,21 +8,21 @@ import { PluginsComponent } from './cruiseComponents/core/plugins/plugins.compon
 import { PluginsService } from './cruiseComponents/core/dataservices/plugins.service';
 import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
 import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
-
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PluginsComponent,
-    GlobalvariablesComponent
+    PluginsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    Ng4JsonEditorModule
+    Ng4JsonEditorModule,
+    TabsModule.forRoot()
   ],
   providers: [PluginsService, HttpClientModule],
   bootstrap: [AppComponent]
