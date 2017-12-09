@@ -9,22 +9,33 @@ import { PluginsService } from './cruiseComponents/core/dataservices/plugins.ser
 import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
 import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { AccordionModule} from 'ngx-bootstrap/accordion';
+import { Cruises3Component } from './cruiseComponents/core/cruises3/cruises3.component';
+//import {MatButtonModule, MatCheckboxModule, MatListModule} from '@angular/material';
+//import { PopupModule } from 'ng2-opd-popup';
+//import { CruisepopupComponent } from './cruiseComponents/core/cruisepopup/cruisepopup.component';
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    PluginsComponent
+    PluginsComponent,
+    Cruises3Component
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
     Ng4JsonEditorModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    AccordionModule.forRoot()
   ],
-  providers: [PluginsService, HttpClientModule],
+  providers: [PluginsService, HttpClientModule,Cruises3Component,GlobalvariablesComponent],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule { 
+
+
+
+}

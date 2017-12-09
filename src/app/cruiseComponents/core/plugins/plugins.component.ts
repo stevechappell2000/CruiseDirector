@@ -1,13 +1,16 @@
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, HostBinding} from '@angular/core';
 import { PluginsService } from '../dataservices/plugins.service';
-import { HttpParams } from '@angular/common/http';
+
 import { JsonEditorComponent, JsonEditorOptions } from 'angular4-jsoneditor/jsoneditor/jsoneditor.component';
+import { HttpParams } from '@angular/common/http';
 import { GlobalvariablesComponent } from '../globalvariables/globalvariables.component';
 import { actions } from './utils/actions';
 import { actionParams } from './utils/actionparams';
 import { pluginObject } from './pluginobject';
 import { application } from './utils/application';
 import { services } from './utils/services';
+import { Cruises3Component } from '../cruises3/cruises3.component';
+
 @Component({
   selector: 'app-plugins',
   templateUrl: './plugins.component.html',
@@ -15,70 +18,31 @@ import { services } from './utils/services';
 })
 
 export class PluginsComponent implements OnInit {
+
   private plugin;
   public editorOptions: JsonEditorOptions;
   public data: any;
   public jsonData: string;
-  private gv = new GlobalvariablesComponent();
+  //private gv = new GlobalvariablesComponent();
   public supportedPlugin: pluginObject[] = [];
   public supportedActions: actions[] = [];
   public supportedActionParams: actionParams[] = [];
   public selectedPlugin: pluginObject;
   public selectedAction: actions;
   public selectedActionParams: actionParams;
-  private postApp: application = null;
+  private postApp: application = undefined;
   private activeURL: string = undefined;
   //@HostBinding('attr.id') id;
   @ViewChild(JsonEditorComponent) editor: JsonEditorComponent;
   
   private Application = {};
-  private initSend = {
-              "parameters" : {
-                "name" : "sampleapp",
-                "id" : "sampleid"
-              },
-              "credentials" : {
-                "parameters" : {
-                  "password" : "admin",
-                  "username" : "admin"
-                }
-              },
-              "services" : [
-                    {"parameters" : {
-                        "pluginName" : "CruiseCorePlugin",
-                        "service":"SomeService",
-                        "action" : "info"
-                     }
-                    }
-                ]
-              };
-private customSend = {
-        "parameters" : {
-            "name" : "sampleapp",
-            "id" : "sampleid"
-          },
-          "credentials" : {
-            "parameters" : {
-              "password" : "admin",
-              "username" : "admin"
-            }
-          },
-          "services" : [
-                {"parameters" : {
-                    "pluginName" : "CruiseCorePlugin",
-                    "service":"SomeService",
-                    "action" : "info"
-                 }
-                }
-            ]
-          };
 
-  constructor(private _httpPlugin: PluginsService) {
-      this.Application = this.initSend;
+  constructor(private _httpPlugin: PluginsService, private _cruises3: Cruises3Component, private gv: GlobalvariablesComponent) {
+      this.Application = this.gv.initPluginSend;
       this.editorOptions = new JsonEditorOptions()
       this.editorOptions.modes = ['code', 'form', 'text', 'tree', 'view']; // set all allowed modes
       this.data = this.Application;
- 
+      
     
   }
 
@@ -97,60 +61,86 @@ private customSend = {
   onNameKeyUp(event: any) {
       console.log(event.target.value);
   }
-  doPOST() {
-        
-        this.data = this._httpPlugin.doPOST(this.editor.get()).then(data => {
+ /**
+          Called from the doStageEditor event (stage button clicked)
+          
+          **/
+  private createApp(){
+          //var app: application;
+          if(undefined === this.postApp){
+              this.postApp = new application(this.gv.applicationName,this.gv.applicationId);
+          }
+          var ser = new services(this.selectedPlugin.name)//
+          ser.addParam("action", this.selectedAction.actionName);
+          for(let i=0;i<this.selectedAction.actionParams.length;i++){
+             if(this.selectedAction.actionParams[i].paramName !='ID'){
+                ser.addParam(this.selectedAction.actionParams[i].paramName, this.selectedAction.actionParams[i].paramDefault);
+             }
+          }
+          this.postApp.addService(ser);
+          let js = JSON.stringify(this.postApp, null, 4);
+          this.gv.currentService = JSON.parse(js);
+          this.editor.set(this.gv.currentService);
+      }
+  doPOSTEditor() {
+        console.log("doPOSTEditor");
+        this.gv.currentService =  this.editor.get();
+        this.data = this._httpPlugin.doPOST(this.gv.currentService).then(data => {
             this.data = data;
             this.jsonData = (JSON.stringify(this.data, null, 4));
         });
       //}
     }
-  private createApp(){
-      //var app: application;
-      if(null === this.postApp){
-          this.postApp = new application("test","test");
-      }
-      var ser = new services(this.selectedPlugin.name)//
-      ser.addParam("action", this.selectedAction.actionName);
-      for(let i=0;i<this.selectedAction.actionParams.length;i++){
-         if(this.selectedAction.actionParams[i].paramName !='ID'){
-            ser.addParam(this.selectedAction.actionParams[i].paramName, this.selectedAction.actionParams[i].paramDefault);
-         }
-      }
-      this.postApp.addService(ser);
-      let js = JSON.stringify(this.postApp, null, 4);
-      this.editor.set(JSON.parse(js));
-  }
-  doStage(){
+  doStageEditor(){
+      console.log("doStageEditor");
       this.createApp();
   }
-  doClear(){
-      this.postApp = null;
+  doClearEditor(){
+      console.log("doClearEditor");
+      this.postApp = undefined;
+      this.gv.currentService = undefined;
       this.editor.set(JSON.parse("{}"));
   }
-  doClearOutput(){
-      this.jsonData  = "{}";
-  }
-  doConvert(){
-      this.editor.set(JSON.parse(this.jsonData));
-  }
-  doShow(){
-      this.postApp = null;
+  doShowEditor(){
+      console.log("doShowEditor");
+      this.postApp = undefined;
       this.jsonData  = JSON.stringify(this.editor.get(),null,4);
   }
-  onActionChange(action: actions){
       
+  /**
+      Output window button events
+      
+     
+      
+  doClearOutput(){
+      console.log("doClearOutput");
+      this.jsonData  = "{}";
+  }
+  doConvertOutput(){
+      console.log("doConvertOutput:"+this.jsonData);
+      //this.data = this.jsonData;
+      this.editor.data = JSON.parse(JSON.stringify(this.jsonData));
+      console.log("-------------------------");
+  }
+ **/
+/**
+      Drop down box events
+      
+      **/
+
+  onPluginChange(plugin: pluginObject){
+      this._cruises3.log();
+      this.selectedPlugin = plugin;
+      this.jsonData = (JSON.stringify(this.selectedPlugin, null, 4));
+      this.supportedActions = plugin.actions;
+  }
+  onActionChange(action: actions){
       this.selectedAction = action
       this.supportedActionParams = action.actionParams;
       this.jsonData = (JSON.stringify(this.selectedAction, null, 4));
   }
   onActionParamChange(actionParams: actionParams){
       this.selectedActionParams = actionParams;
-  }
-  onPluginChange(plugin: pluginObject){
-      this.selectedPlugin = plugin;
-      this.jsonData = (JSON.stringify(this.selectedPlugin, null, 4));
-      this.supportedActions = plugin.actions;
   }
   doUpdateURL(event: any) { // without type info
       this.activeURL = event.target.value;
@@ -159,5 +149,30 @@ private customSend = {
       if(undefined != this.activeURL){
       this._httpPlugin.LastURL = this.activeURL;
       }
+  }
+  doUpdateObject(event: any){
+      this.gv.objectName = event.target.value;
+  }
+  doLoadObject(event: any){
+      this.gv.objectLoad.services[0].parameters.bucketName = this.gv.bucketName;
+      this.gv.objectLoad.services[0].parameters.objectName = this.gv.objectName;
+      console.log(JSON.stringify(this.gv.objectLoad, null, 4));
+      this.data = this._httpPlugin.doPOST(this.gv.objectLoad).then(data => {
+          let len = data["SaveObject.s3GetString"].length;
+          let o = JSON.parse(data["SaveObject.s3GetString"].object)
+          this.editor.set(o);
+          console.log(JSON.stringify(data, null, 4));
+          
+        });
+  }
+  doSaveObject(event: any){
+      this.gv.objectSave.services[0].parameters.object = JSON.stringify(this.editor.get());
+      this.gv.objectSave.services[0].parameters.bucketName = this.gv.bucketName;
+      this.gv.objectSave.services[0].parameters.objectName = this.gv.objectName;
+      console.log(JSON.stringify(this.gv.objectSave, null, 4));
+      this.data = this._httpPlugin.doPOST(this.gv.objectSave).then(data => {
+          this.jsonData = (JSON.stringify(data, null, 4));
+          
+        });
   }
 }

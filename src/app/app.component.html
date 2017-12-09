@@ -3,19 +3,43 @@
 		Dashboard <small>Statistics Overview</small>
 	</h2>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-3">
 			<img src="assets\img\slider1.jpg">
 		</div>
 	</div>
 	<hr>
+<!-- 
+
 	<tabset>
-	  <tab heading='Cruise-JSON'>
+	  <tab heading='Step 1: Select Storage'>
+	     <app-cruises3></app-cruises3>
+	  </tab>
+	  <tab heading='Step 2: Define Service'>
 	     <app-plugins></app-plugins>
 	  </tab>
-	  <tab>
-	    <ng-template tabHeading>Cruise-UI</ng-template>
-	    To-Do
-	  </tab>
 	</tabset>
-    
+
+
+ -->
+<accordion>
+
+  <accordion-group #group>
+    <div accordion-heading class="col-xl">
+      <i class="fa fa-archive fa-3x"></i>
+      <span class="badge badge-primary">Stored Services:<b>{{gv.bucketName}}/{{gv.objectName}}</b></span>
+    </div>
+    <app-cruises3></app-cruises3>
+  </accordion-group>
+  <accordion-group >
+    <div accordion-heading class="col-xl">
+      <i class="fa fa-ship fa-3x"></i>
+      <span class="badge badge-primary">(optional)Execute</span>
+    </div>
+    <app-plugins #cruies3></app-plugins>
+  </accordion-group>
+
+</accordion>
 </div>
+
+
+
