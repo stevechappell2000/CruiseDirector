@@ -11,6 +11,7 @@ import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariable
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule} from 'ngx-bootstrap/accordion';
 import { Cruises3Component } from './cruiseComponents/core/cruises3/cruises3.component';
+import { CodemirrorModule } from 'ng2-codemirror';
 //import {MatButtonModule, MatCheckboxModule, MatListModule} from '@angular/material';
 //import { PopupModule } from 'ng2-opd-popup';
 //import { CruisepopupComponent } from './cruiseComponents/core/cruisepopup/cruisepopup.component';
@@ -28,6 +29,7 @@ import { Cruises3Component } from './cruiseComponents/core/cruises3/cruises3.com
     FormsModule,
     HttpClientModule,
     Ng4JsonEditorModule,
+    CodemirrorModule,
     TabsModule.forRoot(),
     AccordionModule.forRoot()
   ],

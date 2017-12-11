@@ -18,7 +18,8 @@
       "styles": [
         "styles.css",
         "assets/sass/app.scss",
-        "../node_modules/font-awesome/css/font-awesome.css"
+        "../node_modules/font-awesome/css/font-awesome.css",
+		"../node_modules/codemirror/lib/codemirror.css"
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.js",
@@ -54,4 +55,3 @@
     "prefixInterfaces": false
   }
 }
-

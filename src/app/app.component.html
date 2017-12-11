@@ -38,6 +38,26 @@
     <app-plugins #cruies3></app-plugins>
   </accordion-group>
 
+
+  <accordion-group >
+    <div accordion-heading class="col-xl">
+      <i class="fa fa-code fa-3x"></i>
+      <span class="badge badge-primary">CruiseJS - JSScript Helper</span>
+    </div>
+    <pre><codemirror #editor [(ngModel)]="code" [config]="config" (focus)="editorFocus($event)" (change)="onChange()" (copy)="copyCode($event)" (cut)="copyCode($event)" (paste)="pasteCode($event)"></codemirror>
+    </pre>
+      
+
+  </accordion-group>
+
+
+
+
+
+
+
+
+
 </accordion>
 </div>
 

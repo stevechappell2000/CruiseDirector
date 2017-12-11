@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild, CUSTOM_ELEMENTS_SCHEMA, HostBinding} from '@angular/core';
 import { PluginsService } from '../dataservices/plugins.service';
-
-import { JsonEditorComponent, JsonEditorOptions } from 'angular4-jsoneditor/jsoneditor/jsoneditor.component';
+import { JsonEditorComponent, JsonEditorOptions, JsonEditorTreeNode } from 'angular4-jsoneditor/jsoneditor/jsoneditor.component';
 import { HttpParams } from '@angular/common/http';
 import { GlobalvariablesComponent } from '../globalvariables/globalvariables.component';
 import { actions } from './utils/actions';
 import { actionParams } from './utils/actionparams';
 import { pluginObject } from './pluginobject';
 import { application } from './utils/application';
+import { credentials } from './utils/credentials';
 import { services } from './utils/services';
 import { Cruises3Component } from '../cruises3/cruises3.component';
 
@@ -41,6 +41,7 @@ export class PluginsComponent implements OnInit {
       this.Application = this.gv.initPluginSend;
       this.editorOptions = new JsonEditorOptions()
       this.editorOptions.modes = ['code', 'form', 'text', 'tree', 'view']; // set all allowed modes
+
       this.data = this.Application;
       
     
@@ -127,7 +128,9 @@ export class PluginsComponent implements OnInit {
       Drop down box events
       
       **/
-
+  onEditable(inOb: JsonEditorTreeNode){
+      console.log(inOb);
+  }
   onPluginChange(plugin: pluginObject){
       this._cruises3.log();
       this.selectedPlugin = plugin;
@@ -156,13 +159,22 @@ export class PluginsComponent implements OnInit {
   doLoadObject(event: any){
       this.gv.objectLoad.services[0].parameters.bucketName = this.gv.bucketName;
       this.gv.objectLoad.services[0].parameters.objectName = this.gv.objectName;
-      console.log(JSON.stringify(this.gv.objectLoad, null, 4));
+      //console.log(JSON.stringify(this.gv.objectLoad, null, 4));
       this.data = this._httpPlugin.doPOST(this.gv.objectLoad).then(data => {
+          //console.log(JSON.stringify(data,null,4));
           let len = data["SaveObject.s3GetString"].length;
-          let o = JSON.parse(data["SaveObject.s3GetString"].object)
-          this.editor.set(o);
-          console.log(JSON.stringify(data, null, 4));
-          
+          let o = JSON.parse(data["SaveObject.s3GetString"].object);
+          let p = o.parameters;
+          let s = o.services;
+          let c = o.credentials;
+          //console.log(JSON.stringify(o,null,4));
+          this.postApp = new application(p.name, p.id)
+          //console.log("name:"+c.parameters.username);
+          this.postApp.credentials = new credentials(c.parameters.username, c.parameters.password);
+          for(var i=0;i<o.services.length;i++){
+              this.postApp.services.push(o.services[i]);
+          }
+          this.editor.set(JSON.parse(JSON.stringify(this.postApp)));
         });
   }
   doSaveObject(event: any){
@@ -172,6 +184,7 @@ export class PluginsComponent implements OnInit {
       console.log(JSON.stringify(this.gv.objectSave, null, 4));
       this.data = this._httpPlugin.doPOST(this.gv.objectSave).then(data => {
           this.jsonData = (JSON.stringify(data, null, 4));
+          
           
         });
   }
