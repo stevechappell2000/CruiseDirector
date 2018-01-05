@@ -70,7 +70,7 @@ export class GlobalvariablesComponent implements OnInit {
                   {"parameters" : {
                       "pluginName" : "CruiseS3",
                       "service":"CruiseS3Connect",
-                      "ConnectionName":"CruiseS3",
+                      "connectionName":"CruiseS3",
                       "region": this.region,
                       "action" : "s3Connect"
                    }
@@ -78,7 +78,7 @@ export class GlobalvariablesComponent implements OnInit {
                   {"parameters" : {
                       "pluginName" : "CruiseS3",
                       "service":"BucketLoadList",
-                      "ConnectionName":"CruiseS3",
+                      "connectionName":"CruiseS3",
                       "action" : "s3ListBuckets"
                    }
                   }
@@ -99,7 +99,7 @@ export class GlobalvariablesComponent implements OnInit {
               {"parameters" : {
                   "pluginName" : "CruiseS3",
                   "service":"BucketLoadList",
-                  "ConnectionName":"CruiseS3",
+                  "connectionName":"CruiseS3",
                   "action" : "s3ListAllFiles",
                   "bucketName": "unknown"
                }
@@ -121,8 +121,33 @@ export class GlobalvariablesComponent implements OnInit {
                   {"parameters" : {
                       "pluginName" : "CruiseS3",
                       "service":"SaveObject",
-                      "ConnectionName":"CruiseS3",
+                      "connectionName":"CruiseS3",
                       "action" : "s3PutString",
+                      "bucketName": this.bucketName,
+                      "object": this.object,
+                      "objectName": this.objectName
+                      
+                   }
+                  }
+              ]
+            };
+    public objectDelete = {
+            "parameters" : {
+                "name" : this.applicationName,
+                "id" : this.applicationId
+            },
+            "credentials" : {
+              "parameters" : {
+                "password" : "admin",
+                "username" : "admin"
+              }
+            },
+            "services" : [
+                  {"parameters" : {
+                      "pluginName" : "CruiseS3",
+                      "service":"DeleteObject",
+                      "connectionName":"CruiseS3",
+                      "action" : "s3DeleteObject",
                       "bucketName": this.bucketName,
                       "object": this.object,
                       "objectName": this.objectName
@@ -145,8 +170,8 @@ export class GlobalvariablesComponent implements OnInit {
             "services" : [
                   {"parameters" : {
                       "pluginName" : "CruiseS3",
-                      "service":"SaveObject",
-                      "ConnectionName":"CruiseS3",
+                      "service":"LoadObject",
+                      "connectionName":"CruiseS3",
                       "action" : "s3GetString",
                       "bucketName": this.bucketName,
                       "objectName": this.objectName
@@ -156,13 +181,15 @@ export class GlobalvariablesComponent implements OnInit {
               ]
             };
   constructor() { 
-      this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
+      this.engineURL = 'http://ec2-34-214-163-138.us-west-2.compute.amazonaws.com/Cruise';
+
+      //this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
       //this.engineURL = '../Cruiselet';
       //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
   }
   
   ngOnInit() {
-      this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
+      //this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
       //this.engineURL = '../Cruiselet';
       //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
   }

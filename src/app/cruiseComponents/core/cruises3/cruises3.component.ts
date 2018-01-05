@@ -69,6 +69,25 @@ export class Cruises3Component implements OnInit {
           //this.jsonData = (JSON.stringify(this.supportedPlugin, null, 4));*/
         });
   }
+  deleteObject(){
+          //this.gv.objectName
+      this.gv.objectDelete.services[0].parameters.bucketName = this.gv.bucketName;
+      this.gv.objectDelete.services[0].parameters.objectName = this.gv.objectName;
+      this.data = this._httpPlugin.doPOST(this.gv.objectDelete).then(data => {
+          this.data = data;
+          //console.log("*************RETURNED");
+          //public name:string, public owner: string, public displayName: string, public creationDate: string
+          /*for(let i=0;i<this.data['BucketLoadList.s3ListBuckets'].length;i++){
+              console.log('XXXX:'+this.data['BucketLoadList.s3ListBuckets'][i].name);
+              let el = this.data['BucketLoadList.s3ListBuckets'][i];
+              this.supportedBuckets.push(new bucketData(el.name, el.owner, el.displayName, el.creationDate));
+              
+          }*/
+          //this.jsonData = (JSON.stringify(this.supportedPlugin, null, 4));*/
+          this.supportedFiles = [];
+          this.loadFiles();
+        });
+  }         
   onBucketChange(bucket: bucketData){
       this.supportedFiles = [];
       this.loadFiles();
@@ -79,6 +98,8 @@ export class Cruises3Component implements OnInit {
       this.supportedFiles = [];
       this.loadData();
   }
-
+  doDeleteObject(){
+      this.deleteObject();
+  }
 
 }

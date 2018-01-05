@@ -21,6 +21,7 @@ export class PluginsComponent implements OnInit {
 
   private plugin;
   public editorOptions: JsonEditorOptions;
+  public editTreeNode: JsonEditorTreeNode;
   public data: any;
   public jsonData: string;
   //private gv = new GlobalvariablesComponent();
@@ -41,12 +42,19 @@ export class PluginsComponent implements OnInit {
       this.Application = this.gv.initPluginSend;
       this.editorOptions = new JsonEditorOptions()
       this.editorOptions.modes = ['code', 'form', 'text', 'tree', 'view']; // set all allowed modes
-
+      this.editorOptions.onError= (error: any) => {
+          console.log(error);
+      };
+      this.editorOptions.onChange= () =>{
+          //console.log(this.editor.get());
+      };
       this.data = this.Application;
       
     
   }
-
+  onEditable(x: any){
+      console.log(x);
+  }
   ngOnInit() {
       this.data = this._httpPlugin.doPOST(this.Application).then(data => {
           this.data = data;
@@ -128,9 +136,7 @@ export class PluginsComponent implements OnInit {
       Drop down box events
       
       **/
-  onEditable(inOb: JsonEditorTreeNode){
-      console.log(inOb);
-  }
+
   onPluginChange(plugin: pluginObject){
       this._cruises3.log();
       this.selectedPlugin = plugin;
@@ -161,9 +167,10 @@ export class PluginsComponent implements OnInit {
       this.gv.objectLoad.services[0].parameters.objectName = this.gv.objectName;
       //console.log(JSON.stringify(this.gv.objectLoad, null, 4));
       this.data = this._httpPlugin.doPOST(this.gv.objectLoad).then(data => {
-          //console.log(JSON.stringify(data,null,4));
-          let len = data["SaveObject.s3GetString"].length;
-          let o = JSON.parse(data["SaveObject.s3GetString"].object);
+          console.log(JSON.stringify(data,null,4));
+          let rootName = this.gv.objectLoad.services[0].parameters.service+".s3GetString";
+          let len = data[rootName ].length;
+          let o = JSON.parse(data[rootName].object);
           let p = o.parameters;
           let s = o.services;
           let c = o.credentials;

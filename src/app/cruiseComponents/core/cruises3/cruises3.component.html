@@ -1,26 +1,16 @@
-
-<div class="row">
-		<div class="col-xl-3 col-lg-6">
-			<div class="card card-secondary">
-				<div class="card-header card-secondary">
-					<div class="row">
-							<div class="medium">Use Bucket:<b>{{gv.bucketName}}</b></div>
-					</div>
-				</div>
-				<div>
-					Available Buckets&nbsp;:&nbsp;<select [(ngModel)]="selectedBucket" (ngModelChange)="onBucketChange($event)">
-					    <option *ngFor="let sp of supportedBuckets"	title=" By:{{sp.name}} Version:{{sp.creationDate}}" [ngValue]="sp">{{sp.name}}
-						</option>
-					</select>
-					<button (click)="onRefreshList()">Refresh List</button>
-                 </div><div>
-					Available Objects&nbsp;:&nbsp;<select [(ngModel)]="selectedFile" (ngModelChange)="onFileChange($event)">
-					    <option *ngFor="let sp of supportedFiles"	title=" By:{{sp.key}} Version:{{sp.lastModified}}" [ngValue]="sp">{{sp.key}}
-						</option>
-					</select>
-					
-				</div>				
+<div>
+	Available Buckets&nbsp;:&nbsp;<select [(ngModel)]="selectedBucket" (ngModelChange)="onBucketChange($event)">
+	    <option *ngFor="let sp of supportedBuckets"	title=" By:{{sp.name}} Version:{{sp.creationDate}}" [ngValue]="sp">{{sp.name}}
+		</option>
+	</select>
+	<button (click)="onRefreshList()">Refresh List</button>
+             </div><br><div>
+	Available Objects&nbsp;:&nbsp;<select [(ngModel)]="selectedFile" (ngModelChange)="onFileChange($event)">
+	    <option *ngFor="let sp of supportedFiles"	title=" By:{{sp.key}} Version:{{sp.lastModified}}" [ngValue]="sp">{{sp.key}}
+		</option>
+	</select>
+	<button class="btn btn-primary btn-sm active" (click)="doDeleteObject()" title="Deletes the Object from S3">Delete Object</button>
+</div>				
 				
-			</div>
-		</div>
-</div>
+
+

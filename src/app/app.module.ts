@@ -6,8 +6,10 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { PluginsComponent } from './cruiseComponents/core/plugins/plugins.component';
 import { PluginsService } from './cruiseComponents/core/dataservices/plugins.service';
-import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
 import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
+
+
+import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule} from 'ngx-bootstrap/accordion';
 import { Cruises3Component } from './cruiseComponents/core/cruises3/cruises3.component';

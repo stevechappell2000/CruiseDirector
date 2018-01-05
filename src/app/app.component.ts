@@ -18,13 +18,21 @@ export class AppComponent {
             lineSeparator:'\n',
             mode: 'javascript'};
     
-    code = '//sample JavaScript\n'+
-           '//Objects available:\n'+
-           '//    cruSession - com.corecruise.core.SessionObject\n'+
-           '//    cruService - com.corecruise.cruise.services.utils.Services\n'+
-           '//    cruCore    - com.corecruise.coreCore.CoreCruise\n'+
-           '//    cruResponse- com.corecruise.cruise.services.utils.GenericSessionResp\n\n'+
-           'var ser = cruSession.getService(\"InsertService\");//Sample get service from cruSession\n';
+    code = '//Sample JavaScript Imports\n'+
+            'var CollectionsAndFiles = new JavaImporter(\n'+
+            '        java.util, java.io,\n'+
+            '        com.corecruise.cruise.services.utils.ResponseObject,\n'+
+            '        com.corecruise.cruise.SessionObject);\n'+
+            '    );\n'+
+            '//Optional \"with\" block where imports can be used.\n'+
+            'with (CollectionsAndFiles) {\n'+
+            '/*   Objects available:\n'+
+            '       cruSession - com.corecruise.core.SessionObject\n'+
+            '       cruService - com.corecruise.cruise.services.utils.Services\n'+
+            '       cruCore    - com.corecruise.coreCore.CoreCruise\n'+
+            '       cruResponse- com.corecruise.cruise.services.utils.GenericSessionResp */\n\n'+
+            '  var ser = cruSession.getService(\"InsertService\");//Sample get service from cruSession\n'+
+            '}//end with';
 
     @ViewChild('editor') editor: any;
     constructor(private gv: GlobalvariablesComponent) {
@@ -38,7 +46,7 @@ export class AppComponent {
         //strValue = strValue.replace(/&gt;/g, '>');
         //strValue = strValue.replace(/&lt;/g, '<');
         //strValue = strValue.replace(/&amp;/g, '&');
-        console.log("((((((((((("+strValue+"))))))))))))))");
+        //console.log("((((((((((("+strValue+"))))))))))))))");
         return strValue;
     }
     editorFocus(editorEvent: CodeMirror){
@@ -47,7 +55,7 @@ export class AppComponent {
         console.log(cm.doc.children[0]);
         setTimeout(function() {
             cm.refresh();
-            // Set cursor to the end
+            cm.setSize('100%', '100%');
             let posCursor = {line: 0, ch: 0};
             posCursor.line = cm.doc.children[0].lines.length-1;
             posCursor.ch = cm.doc.children[0].lines[posCursor.line].text.length;

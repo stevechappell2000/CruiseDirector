@@ -8,19 +8,32 @@
 		</div>
 	</div>
 	<hr>
-<!-- 
+ 
 
-	<tabset>
-	  <tab heading='Step 1: Select Storage'>
+	<tabset _ngcontent-ahn-19="" class="tabs checkout-tabs tab-container" ng-reflect-justified="true">
+	  <tab>
+	   <ng-template tabHeading><i class="fa fa-archive fa-2x"></i>&nbsp;S3:{{gv.bucketName}}/{{gv.objectName}}</ng-template>
+       <div class="tab-page-content">
 	     <app-cruises3></app-cruises3>
+	     </div>
 	  </tab>
-	  <tab heading='Step 2: Define Service'>
-	     <app-plugins></app-plugins>
+	  <tab >
+	  <ng-template tabHeading><i class="fa fa-ship fa-2x"></i>&nbsp;Services</ng-template>
+       <div class="tab-page-content">
+	     <app-plugins #cruies3></app-plugins>
+	     </div>
+	  </tab>
+	  <tab >
+	  <ng-template tabHeading><i class="fa fa-code fa-2x"></i>&nbsp;JS Editor</ng-template>
+       <div class="tab-page-content" >
+	    <codemirror #editor [(ngModel)]="code" [config]="config" (focus)="editorFocus($event)" (change)="onChange()" (copy)="copyCode($event)" (cut)="copyCode($event)" (paste)="pasteCode($event)"></codemirror>
+
+	    </div>
 	  </tab>
 	</tabset>
+</div>
+<!--
 
-
- -->
 <accordion>
 
   <accordion-group #group>
@@ -51,15 +64,8 @@
   </accordion-group>
 
 
-
-
-
-
-
-
-
 </accordion>
 </div>
 
 
-
+ -->

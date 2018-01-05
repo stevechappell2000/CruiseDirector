@@ -1,89 +1,82 @@
 <!-- button class="btn btn-outline-secondary"  [ngbTooltip]="tipContent">Show</button -->
 
-	<div class="row">
-	    <div class="col-xl-3 col-lg-6">
-	    <input type="url" width="400px" class="form-control" id="myURL" (blur)="doUpdateURL($event)" aria-describedby="urlHelp" placeholder="http://localhost:4200" value="{{gv.engineURL}}">
-	    </div>
-	    <!-- button class="btn btn-primary btn-sm active"  (click)="doConnect()" title="Connect to Cruise Engine.">Clear</button -->
-	</div>
 
-	<div class="row">
-		<div class="col-xl-3 col-lg-6">
-			<div class="card card-secondary">
-				<div class="card-header card-secondary">
-					<div class="row">
+<input type="url" width="90%" class="form-control" id="myURL"
+	(blur)="doUpdateURL($event)" aria-describedby="urlHelp"
+	placeholder="http://localhost:4200" value="{{gv.engineURL}}">
+
+<!-- button class="btn btn-primary btn-sm active"  (click)="doConnect()" title="Connect to Cruise Engine.">Clear</button -->
+
+
+<!-- 
+
+				<div class="row">
 						<div class="huge">Plugins:{{supportedPlugin.length}}&nbsp;&nbsp;
                         Actions:{{supportedActions.length}}&nbsp;&nbsp;
-						Parameters{{supportedActionParams.length}}</div>
-					</div>
+					    Parameters{{supportedActionParams.length}}</div>
 				</div>
-				<div>
-					<select [(ngModel)]="selectedPlugin" (ngModelChange)="onPluginChange($event)">
-					  <option *ngFor="let sp of supportedPlugin" title=" By:{{sp.vendor}} Version:{{sp.version}}" [ngValue]="sp">{{sp.name}} </option>
-					</select>
-					<select [(ngModel)]="selectedAction" (ngModelChange)="onActionChange($event)">
-					  <option *ngFor="let sa of supportedActions" title="{{sa.actionDesc}}" [ngValue]="sa">{{sa.actionName}}</option>
-					</select>
-					<select [(ngModel)]="selectedActionParams" (ngModelChange)="onActionParamChange($event)">
-					  <option *ngFor="let sap of supportedActionParams" title="{{sap.paramDesc}}" [ngValue]="sap">{{sap.paramName}}</option>
-					</select>
-				</div>
-			</div>
-		</div>
-
-
-	</div>
-
+-->
+	<button class="btn btn-primary btn-sm active" (click)="doLoadObject()" title="Loads the selected S3 object to the editor">Load From	S3</button>
+    
+    <hr>
+    
 	<div class="row">
-		<div class="col-lg-5">
-			<div class="card card-default">
-				<div class="card-header">
-					<i class="fa fa-clock-o fa-fw"></i>Editor:
-					<button class="btn btn-primary btn-sm active"  (click)="doLoadObject()" title="Loads the selected S3 object to the editor">Load From S3</button>
-					<button class="btn btn-primary btn-sm active"  (click)="doClearEditor()" title="Clears the Editor Content">Clear</button>
-				    <button class="btn btn-primary btn-sm active" (click)="doStageEditor()" title="Moves the selected Plugin and Action to the editor">Stage</button>
-				  	<button class="btn btn-primary btn-sm active" (click)="doPOSTEditor()" title="Sends the editor content to the Cruise Engine">Send</button>
-				  	<button class="btn btn-primary btn-sm active" (click)="doShowEditor()" title="Shows the raw JSON from the editor in the Response area.">Show</button>
-				</div>
+		<div class="col-xl-5">
+    
 
-				<div id="jsoneditor" style="height:699px;">
-					<json-editor [options]="editorOptions" [data]="Application"></json-editor>
-				</div>
-				<div class="row" >
-				   <div class="col-xs-2">
-				    <button class="btn btn-primary btn-sm active"  (click)="doSaveObject($event)" title="Connect to Cruise Engine." enabled=false>Save</button>
-				    </div>
-				    <div class="col-xs-6">
-				    <input type="text" class="form-control" id="objectName" (blur)="doUpdateObject($event)" placeholder="enter a name for this action" value="{{gv.objectName}}">
-				    </div>
+        <div>
+    
+		<div>
+			Plugins : <select [(ngModel)]="selectedPlugin"
+				(ngModelChange)="onPluginChange($event)">
+				<option *ngFor="let sp of supportedPlugin"
+					title=" By:{{sp.vendor}} Version:{{sp.version}}" [ngValue]="sp">{{sp.name}}
+				</option>
+			</select> <select [(ngModel)]="selectedAction"
+				(ngModelChange)="onActionChange($event)">
+				<option *ngFor="let sa of supportedActions" title="{{sa.actionDesc}}"
+					[ngValue]="sa">{{sa.actionName}}</option>
+			</select> <select [(ngModel)]="selectedActionParams"
+				(ngModelChange)="onActionParamChange($event)">
+				<option *ngFor="let sap of supportedActionParams"
+					title="{{sap.paramDesc}}" [ngValue]="sap">{{sap.paramName}}</option>
+			</select>
+				<button class="btn btn-primary btn-sm active" (click)="doStageEditor()"	title="Moves the selected Plugin and Action to the editor">Stage</button>
+				<button class="btn btn-primary btn-sm active" (click)="doClearEditor()" title="Clears the Editor Content">Clear</button>
+				<button class="btn btn-primary btn-sm active" (click)="doPOSTEditor()"	title="Sends the editor content to the Cruise Engine">Send</button>
+				<button class="btn btn-primary btn-sm active" (click)="doShowEditor()"	title="Shows the raw JSON from the editor in the Response area.">Show</button>
+		</div>    
 
-				</div>
-			</div>
-		</div>
-		<div class="col-lg-5">
-			<div class="card card-default">
-				<div class="card-header">
-					<i class="fa fa-bell fa-fw"></i> Response
-					<!-- button class="btn btn-primary btn-sm active" (click)="doClearOutput()">Clear</button>
-				    <button class="btn btn-primary btn-sm active" (click)="doConvertOutput()">Edit</button -->
-				</div>
-				<div class="m-t-1">
+    
+    </div>
 
-				</div>
-				<!-- /.card-header -->
-
-
-					    <textarea class="form-control" id="exampleTextarea" rows="30">{{jsonData}}</textarea>
-
-
-
-				<!-- /.card-body -->
-			</div>
-			<!-- /.card -->
-
-			<!-- /.card .chat-card -->
-		</div>
+	<div id="jsoneditor" style="height: 699px;">
+		<json-editor [options]="editorOptions" [data]="Application" (editable)="onEditable($event)"></json-editor>
 	</div>
+     <div>
+		<button class="btn btn-primary btn-sm active"
+			(click)="doSaveObject($event)" title="Connect to Cruise Engine."
+			enabled=false>Save</button>
+	</div>
+	<div class="col-xs-6">
+		<input type="text" class="form-control" id="objectName"
+			(blur)="doUpdateObject($event)"
+			placeholder="enter a name for this action" value="{{gv.objectName}}">
+	</div>
+
+</div>
+<div class="col-xl-5">
+
+
+
+	<i class="fa fa-bell fa-fw"></i> Response
+	<textarea class="form-control" id="exampleTextarea" rows="30">{{jsonData}}</textarea>
+
+</div>
+</div>
+
+
+
 
 
 
