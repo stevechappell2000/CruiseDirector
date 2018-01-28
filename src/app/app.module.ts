@@ -7,8 +7,14 @@ import { AppComponent } from './app.component';
 import { PluginsComponent } from './cruiseComponents/core/plugins/plugins.component';
 import { PluginsService } from './cruiseComponents/core/dataservices/plugins.service';
 import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
-
-
+import { CruiserouteComponent } from './cruiseComponents/core/cruiseroute/cruiseroute.component';
+import {
+  MatButtonModule,
+  MatMenuModule,
+  MatToolbarModule,
+  MatIconModule,
+  MatCardModule
+} from '@angular/material';
 import { Ng4JsonEditorModule } from 'angular4-jsoneditor';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { AccordionModule} from 'ngx-bootstrap/accordion';
@@ -24,16 +30,21 @@ import { CodemirrorModule } from 'ng2-codemirror';
   declarations: [
     AppComponent,
     PluginsComponent,
-    Cruises3Component
+    Cruises3Component,CruiserouteComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    Ng4JsonEditorModule,
-    CodemirrorModule,
-    TabsModule.forRoot(),
-    AccordionModule.forRoot()
+	BrowserModule,
+	FormsModule,
+	HttpClientModule,
+	Ng4JsonEditorModule,
+	CodemirrorModule,
+	MatButtonModule,
+	MatMenuModule,
+	MatToolbarModule,
+	MatIconModule,
+	MatCardModule,
+	TabsModule.forRoot(),
+	AccordionModule.forRoot()
   ],
   providers: [PluginsService, HttpClientModule,Cruises3Component,GlobalvariablesComponent],
   bootstrap: [AppComponent]

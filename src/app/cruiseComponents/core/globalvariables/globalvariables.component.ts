@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-
+import { JsonEditorComponent} from 'angular4-jsoneditor/jsoneditor/jsoneditor.component';
 @Component({
   selector: 'app-globalvariables',
   templateUrl: './globalvariables.component.html',
   styleUrls: ['./globalvariables.component.css']
 })
 export class GlobalvariablesComponent implements OnInit {
-    private engineURL: string;
+     //'http://localhost:8079/Cruise';
+    //'http://server.cruiseapi.net/Cruise';
+    private engineURL: string = 'http://server.cruiseapi.net:8079/Cruise';
     public bucketName:string  = "Unselected";
     public objectName: string = "Unselected";
     public region = 'us-west-2';
     public currentService: any;
     public applicationName = "CruiseDirector";
     public applicationId = "Generated";
+    public jsonEditor: JsonEditorComponent;
     public object: any;
     public initPluginSend = {
             "parameters" : {
@@ -29,7 +32,7 @@ export class GlobalvariablesComponent implements OnInit {
                   {"parameters" : {
                       "pluginName" : "CruiseCorePlugin",
                       "service":"SomeService",
-                      "action" : "info"
+                      "action" : "plugInInfo"
                    }
                   }
               ]
@@ -49,7 +52,7 @@ export class GlobalvariablesComponent implements OnInit {
                   {"parameters" : {
                       "pluginName" : "CruiseCorePlugin",
                       "service":"SomeService",
-                      "action" : "info"
+                      "action" : "plugInInfo"
                    }
                   }
               ]
@@ -181,17 +184,11 @@ export class GlobalvariablesComponent implements OnInit {
               ]
             };
   constructor() { 
-      this.engineURL = 'http://ec2-34-214-163-138.us-west-2.compute.amazonaws.com/Cruise';
 
-      //this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
-      //this.engineURL = '../Cruiselet';
-      //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
   }
   
   ngOnInit() {
-      //this.engineURL = 'http://localhost:8077/CuiseSite/Cruiselet';
-      //this.engineURL = '../Cruiselet';
-      //this.engineURL = 'http://steve-env.fijpm3ncun.us-west-2.elasticbeanstalk.com/Cruiselet';
+
   }
   GetEngineURL(){
       return this.engineURL;

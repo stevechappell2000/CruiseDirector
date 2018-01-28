@@ -41,10 +41,10 @@
 				<option *ngFor="let sap of supportedActionParams"
 					title="{{sap.paramDesc}}" [ngValue]="sap">{{sap.paramName}}</option>
 			</select>
-				<button class="btn btn-primary btn-sm active" (click)="doStageEditor()"	title="Moves the selected Plugin and Action to the editor">Stage</button>
-				<button class="btn btn-primary btn-sm active" (click)="doClearEditor()" title="Clears the Editor Content">Clear</button>
-				<button class="btn btn-primary btn-sm active" (click)="doPOSTEditor()"	title="Sends the editor content to the Cruise Engine">Send</button>
-				<button class="btn btn-primary btn-sm active" (click)="doShowEditor()"	title="Shows the raw JSON from the editor in the Response area.">Show</button>
+			<button class="btn btn-primary btn-sm active" (click)="doClearEditor()" title="Clears the Editor Content">Clear</button>
+			<button class="btn btn-primary btn-sm active" (click)="doStageEditor()"	title="Moves the selected Plugin and Action to the editor">Stage</button>
+			<button class="btn btn-primary btn-sm active" (click)="doPOSTEditor()"	title="Sends the editor content to the Cruise Engine">Send</button>
+			<button class="btn btn-primary btn-sm active" (click)="doShowEditor()"	title="Shows the raw JSON from the editor in the Response area.">Show</button>
 		</div>    
 
     

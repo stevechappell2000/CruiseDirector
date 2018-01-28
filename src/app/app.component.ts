@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { GlobalvariablesComponent } from './cruiseComponents/core/globalvariables/globalvariables.component';
 import { CodeMirror } from 'codemirror';
+import { PluginsService } from './cruiseComponents/core/dataservices/plugins.service';
+
 //import 'codemirror'
 //import 'codemirror/mode/javascript/javascript'
 
@@ -17,7 +19,28 @@ export class AppComponent {
             height: '100%',
             lineSeparator:'\n',
             mode: 'javascript'};
-    
+    executeCode = {
+            "parameters" : {
+                "name" : "CruiseDirectorScript",
+                "id" : "CruiseDirectorScript"
+              },
+              "credentials" : {
+                "parameters" : {
+                  "password" : "admin",
+                  "username" : "admin"
+                }
+              },
+              "services" : [
+                            { "parameters": {
+                                "pluginName": "CruiseJS",
+                                "action": "RunScript",
+                                "service": "scriptInsert",
+                                "Script": ""
+                            }
+                        }
+                ]
+              };
+
     code = '//Sample JavaScript Imports\n'+
             'var CollectionsAndFiles = new JavaImporter(\n'+
             '        java.util, java.io,\n'+
@@ -35,7 +58,7 @@ export class AppComponent {
             '}//end with';
 
     @ViewChild('editor') editor: any;
-    constructor(private gv: GlobalvariablesComponent) {
+    constructor(private _httpPlugin: PluginsService, private gv: GlobalvariablesComponent) {
         console.log("Hello from app:"+gv.bucketName);
         //this.code = '// Some code...';
     }
@@ -80,10 +103,35 @@ export class AppComponent {
         //console.log("change");
         //this.editor.instance.doc.setValue(this.editor.instance.doc.getValue());
     }
-    pasteCode(){
+    formatCode(){
         this.editor.instance.doc.setValue(this.removeOddChars(this.editor.instance.doc.getValue()));
         //this.editor.instance.doc.setValue( this.removeOddChars(this.editor.instance.doc.getValue()));
 
+    }
+    runInjectedCode(event: any){
+        this.executeCode.services[0].parameters.Script = this.editor.instance.doc.getValue();
+        var target = this.gv.jsonEditor.get();
+        target["services"].push(this.executeCode.services[0]);
+        
+        var mydata = this._httpPlugin.doPOST(target).then(data => {
+            //this.data = data;
+            console.log(JSON.stringify(data, null, 4));
+        });
+    }
+    appendInjectedCode(event: any){
+        this.executeCode.services[0].parameters.Script = this.editor.instance.doc.getValue();
+        var target = this.gv.jsonEditor.get();
+        target["services"].push(this.executeCode.services[0]);
+        this.gv.jsonEditor.set(target);
+    }
+    runCode(event: any){
+        console.log("runEvent");
+        this.executeCode.services[0].parameters.Script = this.editor.instance.doc.getValue();
+        var mydata = this._httpPlugin.doPOST(this.executeCode).then(data => {
+            //this.data = data;
+            console.log(JSON.stringify(data, null, 4));
+        });
+      //}
     }
     ngOnInit(){
 

@@ -1,0 +1,35 @@
+
+<button class="btn btn-primary btn-sm active" (click)="refresh(false)"	title="Reload route data">Refresh</button>
+<button class="btn btn-primary btn-sm active" (click)="refresh(true)"	title="Forces a 'dead server' recovery attempt, then loads route data">Clean Connections</button>
+<div *ngFor="let i of routes">
+    <span *ngFor="let j of i">
+        <div >
+        <mat-card [ngStyle]="{'padding':'5px'}">
+        <mat-card-title  [ngStyle]="{'background-color':'#DEF2F2'}">{{j.name}}</mat-card-title>
+        <div class="row">
+			<div class="col-xl-5">
+	            <mat-card class='demo-card-container'>
+	            <mat-card-title [ngStyle]="{'background-color':'#eeeeee'}">Supported Plugins</mat-card-title>
+	        	<ul>
+	        	<span *ngFor="let k of j.pluginInfo">
+	        	    <li>{{k.plugin}}:{{k.usage}}
+	        	</span>
+	        	</ul>
+	        	</mat-card>
+	        </div>
+	        <div class="col-xl-5">
+	        	<mat-card>
+	        	<mat-card-title [ngStyle]="{'background-color':'#eeeeee'}">Server State</mat-card-title>
+	        	   URL:{{j.server}}:{{j.port}}<br>
+	        	   Enabled: {{j.enabled}}<br>
+	        	   Traffic: {{j.hitCount}}<br>
+	        	   failed requests: {{j.failures}}<br>
+	        	</mat-card>
+        	</div>
+
+		</div>
+		</mat-card>
+        </div>
+    </span>
+</div>
+

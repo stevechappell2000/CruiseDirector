@@ -56,6 +56,7 @@ export class PluginsComponent implements OnInit {
       console.log(x);
   }
   ngOnInit() {
+      this.gv.jsonEditor = this.editor;
       this.data = this._httpPlugin.doPOST(this.Application).then(data => {
           this.data = data;
           for(let i=0;i<this.data.Plugins.length;i++){
@@ -77,7 +78,7 @@ export class PluginsComponent implements OnInit {
   private createApp(){
           //var app: application;
           if(undefined === this.postApp){
-              this.postApp = new application(this.gv.applicationName,this.gv.applicationId);
+              this.postApp = new application(this.gv.initPluginSend.parameters);//this.gv.applicationName,this.gv.applicationId);
           }
           var ser = new services(this.selectedPlugin.name)//
           ser.addParam("action", this.selectedAction.actionName);
@@ -175,9 +176,9 @@ export class PluginsComponent implements OnInit {
           let s = o.services;
           let c = o.credentials;
           //console.log(JSON.stringify(o,null,4));
-          this.postApp = new application(p.name, p.id)
+          this.postApp = new application(o.parameters);//p.name, p.id)
           //console.log("name:"+c.parameters.username);
-          this.postApp.credentials = new credentials(c.parameters.username, c.parameters.password);
+          this.postApp.credentials = new credentials(c.parameters);
           for(var i=0;i<o.services.length;i++){
               this.postApp.services.push(o.services[i]);
           }

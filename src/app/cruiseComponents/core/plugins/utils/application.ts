@@ -4,10 +4,12 @@ import { services } from './services';
 export class application {
     public parameters = {};
     public services: services[] = [];
-    public credentials: credentials = new credentials("admin", "admin");
-    constructor(appName: string, id: string){
-        this.parameters['name'] = appName;
-        this.parameters['id'] = id;
+    public credentials: credentials = new credentials({"username":"admin", "password":"admin"});
+    constructor(Parameters:{}){//appName: string, id: string){
+        //console.log(Parameters);
+        this.parameters = Parameters;
+        //this.parameters['name'] = appName;
+        //this.parameters['id'] = id;
     }
     addParam(name: string, value: string){
         this.parameters[name] = value;

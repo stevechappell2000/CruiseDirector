@@ -10,7 +10,7 @@
 	<hr>
  
 
-	<tabset _ngcontent-ahn-19="" class="tabs checkout-tabs tab-container" ng-reflect-justified="true">
+	<tabset  class="tabs checkout-tabs tab-container" ng-reflect-justified="true">
 	  <tab>
 	   <ng-template tabHeading><i class="fa fa-archive fa-2x"></i>&nbsp;S3:{{gv.bucketName}}/{{gv.objectName}}</ng-template>
        <div class="tab-page-content">
@@ -26,9 +26,18 @@
 	  <tab >
 	  <ng-template tabHeading><i class="fa fa-code fa-2x"></i>&nbsp;JS Editor</ng-template>
        <div class="tab-page-content" >
-	    <codemirror #editor [(ngModel)]="code" [config]="config" (focus)="editorFocus($event)" (change)="onChange()" (copy)="copyCode($event)" (cut)="copyCode($event)" (paste)="pasteCode($event)"></codemirror>
+       <button class="btn btn-primary btn-sm active" (click)="formatCode($event)" title="Format Code">Format Code</button>
+       <button class="btn btn-primary btn-sm active" (click)="runCode($event)" title="Execute code on server">Execute Standalone</button>
+       <button class="btn btn-primary btn-sm active" (click)="runInjectedCode($event)" title="Add service to current services in ">Append to Service and Execute</button>
+       <button class="btn btn-primary btn-sm active" (click)="appendInjectedCode($event)" title="Add the script service to the current service">Append to Service</button>
+       <hr>
+	   <codemirror #editor [(ngModel)]="code" [config]="config" (focus)="editorFocus($event)" (change)="onChange()" (copy)="copyCode($event)" (cut)="copyCode($event)" ></codemirror>
 
 	    </div>
+	  </tab>
+	  <tab>
+	     <ng-template tabHeading><i class="fa fa-code fa-2x"></i>&nbsp;Router</ng-template>
+	     <app-cruiseroute></app-cruiseroute>
 	  </tab>
 	</tabset>
 </div>
